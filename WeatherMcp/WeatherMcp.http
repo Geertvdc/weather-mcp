@@ -1,0 +1,25 @@
+@WeatherMcp_HostAddress = http://localhost:5260
+
+### Get weather forecast for default city
+GET {{WeatherMcp_HostAddress}}/weatherforecast/
+Accept: application/json
+
+### Get weather forecast for specific city - London
+GET {{WeatherMcp_HostAddress}}/weatherforecast/London
+Accept: application/json
+
+### Get weather forecast for specific city - New York
+GET {{WeatherMcp_HostAddress}}/weatherforecast/New York
+Accept: application/json
+
+### Get weather forecast for specific city - Tokyo
+GET {{WeatherMcp_HostAddress}}/weatherforecast/Tokyo
+Accept: application/json
+
+### Get Swagger documentation
+GET {{WeatherMcp_HostAddress}}/swagger/index.html
+Accept: text/html
+
+### Get OpenAPI spec
+GET {{WeatherMcp_HostAddress}}/swagger/v1/swagger.json
+Accept: application/json

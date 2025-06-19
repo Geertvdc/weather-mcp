@@ -1,0 +1,51 @@
+@McpServer_HostAddress = http://localhost:5260
+
+### MCP Server endpoints
+### Note: MCP protocol uses Server-Sent Events and specific JSON-RPC format
+### These are basic endpoint tests - actual MCP communication requires specific client libraries
+
+### Check if MCP endpoint is available
+GET {{McpServer_HostAddress}}/mcp
+Accept: application/json
+
+### Potential MCP tools endpoint (depends on implementation)
+GET {{McpServer_HostAddress}}/mcp/tools
+Accept: application/json
+
+### Potential MCP status endpoint
+GET {{McpServer_HostAddress}}/mcp/status
+Accept: application/json
+
+### Test MCP capabilities endpoint
+GET {{McpServer_HostAddress}}/mcp/capabilities
+Accept: application/json
+
+### Note: Actual MCP tool calls would use JSON-RPC format like:
+### POST {{McpServer_HostAddress}}/mcp
+### Content-Type: application/json
+### 
+### {
+###   "jsonrpc": "2.0",
+###   "id": 1,
+###   "method": "tools/call",
+###   "params": {
+###     "name": "GetWeatherForecast",
+###     "arguments": {}
+###   }
+### }
+
+### Note: For city-specific weather:
+### POST {{McpServer_HostAddress}}/mcp
+### Content-Type: application/json
+### 
+### {
+###   "jsonrpc": "2.0",
+###   "id": 2,
+###   "method": "tools/call",
+###   "params": {
+###     "name": "GetWeatherForecastForCity",
+###     "arguments": {
+###       "city": "London"
+###     }
+###   }
+### }
