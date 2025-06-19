@@ -18,6 +18,10 @@ jobs:
   copilot-setup-steps:
     runs-on: ubuntu-latest
 
+    # Use the same .NET 9 container image as the devcontainer
+    container:
+      image: mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm
+
     # Set the permissions to the lowest permissions possible needed for your
     # steps. Copilot will be given its own token for its operations.
     permissions:
@@ -30,14 +34,6 @@ jobs:
     # You can define any steps you want, and they will run before the agent
     # starts. If you do not check out your code, Copilot will do this for you.
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up .NET 9
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: "9.0.x"
-
       - name: Verify .NET installation
         run: |
           dotnet --version
