@@ -1,0 +1,43 @@
+{
+    "name": "Weather MCP Server - .NET 9",
+    "image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0-bookworm",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZsh": true,
+            "installOhMyZshConfig": true,
+            "upgradePackages": true
+        },
+        "ghcr.io/devcontainers/features/git:1": {
+            "version": "latest",
+            "ppa": false
+        }
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-dotnettools.csharp",
+                "ms-dotnettools.csdevkit",
+                "ms-dotnettools.vscode-dotnet-runtime",
+                "ms-vscode.vscode-json",
+                "GitHub.copilot",
+                "GitHub.copilot-chat"
+            ],
+            "settings": {
+                "dotnet.completion.showCompletionItemsFromUnimportedNamespaces": true,
+                "dotnet.inlayHints.enableInlayHintsForParameters": true,
+                "dotnet.inlayHints.enableInlayHintsForLiteralParameters": true,
+                "dotnet.inlayHints.enableInlayHintsForIndexerParameters": true,
+                "dotnet.inlayHints.enableInlayHintsForObjectCreationParameters": true,
+                "dotnet.inlayHints.enableInlayHintsForOtherParameters": true,
+                "dotnet.inlayHints.suppressInlayHintsForParametersThatDifferOnlyBySuffix": true,
+                "dotnet.inlayHints.suppressInlayHintsForParametersThatMatchMethodIntent": true,
+                "dotnet.inlayHints.suppressInlayHintsForParametersThatMatchArgumentName": true
+            }
+        }
+    },
+    "forwardPorts": [5000, 5001],
+    "postCreateCommand": "dotnet --version && echo '.NET environment ready for development'",
+    "remoteUser": "vscode"
+}
