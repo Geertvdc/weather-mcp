@@ -76,8 +76,63 @@ The application will start on `http://localhost:5260` (or similar port).
 - `GET /weatherforecast/{city}` - Get 5-day forecast for specific city
 - `GET /swagger` - Swagger UI documentation
 
+You can test these endpoints using the [WeatherMcp.http](WeatherMcp/WeatherMcp.http) file. Example:
+```http
+### Get weather forecast for London
+GET http://localhost:5260/weatherforecast/London
+Accept: application/json
+```
+
 **MCP Endpoints:**
 - `POST /` - MCP JSON-RPC endpoint for all MCP communication
+
+Test MCP endpoints using [WeatherMcp.mcp.http](WeatherMcp/WeatherMcp.mcp.http). Example:
+```http
+### Call GetWeatherForecastForCity Tool
+POST http://localhost:5260/
+Content-Type: application/json
+
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "GetWeatherForecastForCity",
+    "arguments": {
+      "city": "Amsterdam"
+    }
+  }
+}
+```
+
+### MCP Inspector Integration
+
+You can use the MCP Inspector to interact with your MCP server:
+
+```bash
+npx @modelcontextprotocol/inspector
+```
+
+This provides a web-based interface to test MCP tools and explore the server capabilities.
+
+### Claude Desktop Integration
+
+To connect this MCP server to Claude Desktop, add the following to your `claude_desktop_config.json` file:
+
+```json
+{
+  "mcpServers": {
+    "weather": {               
+      "command": "npx",                      
+      "args": [
+        "-y",                                
+        "mcp-remote",                        
+        "http://localhost:5260"          
+      ]
+    }
+  }
+}
+```
 
 ## Testing the Application
 
@@ -158,10 +213,5 @@ WeatherMcp/
 
 WeatherMcp.Tests/        # Unit tests for all components
 ```
-
-#### Key Files for MCP Integration
-- `Tools/WeatherTools.cs` - MCP tool implementations
-- `Program.cs` - MCP server configuration
-- `WeatherMcp.mcp.http` - MCP protocol testing
 
 This example demonstrates how straightforward it can be to add MCP capabilities to existing APIs, enabling them to be consumed by AI agents and other MCP-compatible clients.
