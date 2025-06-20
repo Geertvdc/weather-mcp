@@ -1,51 +1,74 @@
 @McpServer_HostAddress = http://localhost:5260
 
-### MCP Server endpoints
-### Note: MCP protocol uses Server-Sent Events and specific JSON-RPC format
-### These are basic endpoint tests - actual MCP communication requires specific client libraries
+### MCP Streamable HTTP Transport
+### All MCP requests use JSON-RPC 2.0 format to the root endpoint
+### Responses come back as Server-Sent Events format: "event: message\ndata: {...}"
 
-### Check if MCP endpoint is available
-GET {{McpServer_HostAddress}}/mcp
-Accept: application/json
+### MCP Initialize - Start MCP session
+POST {{McpServer_HostAddress}}/
+Content-Type: application/json
+Accept: application/json, text/event-stream
 
-### Potential MCP tools endpoint (depends on implementation)
-GET {{McpServer_HostAddress}}/mcp/tools
-Accept: application/json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "initialize",
+  "params": {
+    "protocolVersion": "2024-11-05",
+    "capabilities": {},
+    "clientInfo": {
+      "name": "WeatherMcp-HttpClient",
+      "version": "1.0.0"
+    }
+  }
+}
 
-### Potential MCP status endpoint
-GET {{McpServer_HostAddress}}/mcp/status
-Accept: application/json
+###
 
-### Test MCP capabilities endpoint
-GET {{McpServer_HostAddress}}/mcp/capabilities
-Accept: application/json
+### List Available Tools
+POST {{McpServer_HostAddress}}/
+Content-Type: application/json
+Accept: application/json, text/event-stream
 
-### Note: Actual MCP tool calls would use JSON-RPC format like:
-### POST {{McpServer_HostAddress}}/mcp
-### Content-Type: application/json
-### 
-### {
-###   "jsonrpc": "2.0",
-###   "id": 1,
-###   "method": "tools/call",
-###   "params": {
-###     "name": "GetWeatherForecast",
-###     "arguments": {}
-###   }
-### }
+{
+  "jsonrpc": "2.0",
+  "id": 2,
+  "method": "tools/list",
+  "params": {}
+}
 
-### Note: For city-specific weather:
-### POST {{McpServer_HostAddress}}/mcp
-### Content-Type: application/json
-### 
-### {
-###   "jsonrpc": "2.0",
-###   "id": 2,
-###   "method": "tools/call",
-###   "params": {
-###     "name": "GetWeatherForecastForCity",
-###     "arguments": {
-###       "city": "London"
-###     }
-###   }
-### }
+###
+
+### Call GetWeatherForecast Tool (Default City)
+POST {{McpServer_HostAddress}}/
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": 4,
+  "method": "tools/call",
+  "params": {
+    "name": "GetWeatherForecast",
+    "arguments": {}
+  }
+}
+
+###
+
+### Call GetWeatherForecastForCity Tool (Amsterdam)
+POST {{McpServer_HostAddress}}/
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": 5,
+  "method": "tools/call",
+  "params": {
+    "name": "GetWeatherForecastForCity",
+    "arguments": {
+      "city": "Amsterdam"
+    }
+  }
+}
