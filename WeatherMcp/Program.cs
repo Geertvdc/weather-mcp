@@ -49,6 +49,28 @@ app.MapGet("/weatherforecast/{city}", (string city) =>
 .WithName("GetWeatherForecastForCity")
 .WithOpenApi();
 
+app.MapGet("/weatherforecast/date/{startDate}", (string startDate) =>
+{
+    if (DateOnly.TryParse(startDate, out var date))
+    {
+        return Results.Ok(weatherService.GetWeatherForecast(date));
+    }
+    return Results.BadRequest($"Invalid date format: {startDate}. Please use YYYY-MM-DD format.");
+})
+.WithName("GetWeatherForecastForDate")
+.WithOpenApi();
+
+app.MapGet("/weatherforecast/{city}/date/{startDate}", (string city, string startDate) =>
+{
+    if (DateOnly.TryParse(startDate, out var date))
+    {
+        return Results.Ok(weatherService.GetWeatherForecast(city, date));
+    }
+    return Results.BadRequest($"Invalid date format: {startDate}. Please use YYYY-MM-DD format.");
+})
+.WithName("GetWeatherForecastForCityAndDate")
+.WithOpenApi();
+
 // Map MCP endpoints
 app.MapMcp();
 
