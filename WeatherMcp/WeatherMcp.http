@@ -16,6 +16,26 @@ Accept: application/json
 GET {{WeatherMcp_HostAddress}}/weatherforecast/Tokyo
 Accept: application/json
 
+### Get weather forecast for specific date (default city)
+GET {{WeatherMcp_HostAddress}}/weatherforecast/date/2024-06-15
+Accept: application/json
+
+### Get weather forecast for specific date (invalid date)
+GET {{WeatherMcp_HostAddress}}/weatherforecast/date/invalid-date
+Accept: application/json
+
+### Get weather forecast for specific city and date - London
+GET {{WeatherMcp_HostAddress}}/weatherforecast/London/date/2024-12-25
+Accept: application/json
+
+### Get weather forecast for specific city and date - Tokyo
+GET {{WeatherMcp_HostAddress}}/weatherforecast/Tokyo/date/2025-01-01
+Accept: application/json
+
+### Get weather forecast for specific city and date (invalid date)
+GET {{WeatherMcp_HostAddress}}/weatherforecast/Berlin/date/2024-13-45
+Accept: application/json
+
 ### Get Swagger documentation
 GET {{WeatherMcp_HostAddress}}/swagger/index.html
 Accept: text/html

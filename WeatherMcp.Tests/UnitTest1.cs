@@ -88,4 +88,39 @@ public class WeatherServiceTests
         // Assert
         Assert.All(forecast, f => Assert.Contains(f.Summary, validSummaries));
     }
+
+    [Fact]
+    public void GetWeatherForecast_WithSpecificDate_ReturnsCorrectStartDate()
+    {
+        // Arrange
+        var startDate = new DateOnly(2024, 6, 15);
+
+        // Act
+        var forecast = _weatherService.GetWeatherForecast(startDate);
+
+        // Assert
+        Assert.NotNull(forecast);
+        Assert.Equal(5, forecast.Length);
+        Assert.Equal(startDate, forecast[0].Date);
+        Assert.Equal(startDate.AddDays(4), forecast[4].Date);
+        Assert.All(forecast, f => Assert.Equal("Default City", f.City));
+    }
+
+    [Fact]
+    public void GetWeatherForecast_WithCityAndDate_ReturnsCorrectCityAndDate()
+    {
+        // Arrange
+        const string city = "Berlin";
+        var startDate = new DateOnly(2024, 12, 25);
+
+        // Act
+        var forecast = _weatherService.GetWeatherForecast(city, startDate);
+
+        // Assert
+        Assert.NotNull(forecast);
+        Assert.Equal(5, forecast.Length);
+        Assert.Equal(startDate, forecast[0].Date);
+        Assert.Equal(startDate.AddDays(4), forecast[4].Date);
+        Assert.All(forecast, f => Assert.Equal(city, f.City));
+    }
 }

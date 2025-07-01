@@ -72,3 +72,61 @@ Accept: application/json, text/event-stream
     }
   }
 }
+
+###
+
+### Call GetWeatherForecastForDate Tool (Specific Date)
+POST {{McpServer_HostAddress}}/
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": 6,
+  "method": "tools/call",
+  "params": {
+    "name": "GetWeatherForecastForDate",
+    "arguments": {
+      "startDate": "2024-06-15"
+    }
+  }
+}
+
+###
+
+### Call GetWeatherForecastForCityAndDate Tool (Paris, Christmas Day)
+POST {{McpServer_HostAddress}}/
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": 7,
+  "method": "tools/call",
+  "params": {
+    "name": "GetWeatherForecastForCityAndDate",
+    "arguments": {
+      "city": "Paris",
+      "startDate": "2024-12-25"
+    }
+  }
+}
+
+###
+
+### Call GetWeatherForecastForDate Tool (Invalid Date)
+POST {{McpServer_HostAddress}}/
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{
+  "jsonrpc": "2.0",
+  "id": 8,
+  "method": "tools/call",
+  "params": {
+    "name": "GetWeatherForecastForDate",
+    "arguments": {
+      "startDate": "invalid-date"
+    }
+  }
+}

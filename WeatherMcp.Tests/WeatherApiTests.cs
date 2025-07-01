@@ -87,4 +87,51 @@ public class WeatherApiTests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         response.EnsureSuccessStatusCode();
     }
+
+    [Fact]
+    public async Task GetWeatherForecastForDate_ReturnsCorrectStartDate()
+    {
+        // Act
+        var forecast = await _client.GetFromJsonAsync<WeatherForecast[]>("/weatherforecast/date/2024-06-15");
+
+        // Assert
+        Assert.NotNull(forecast);
+        Assert.Equal(5, forecast.Length);
+        Assert.Equal(new DateOnly(2024, 6, 15), forecast[0].Date);
+        Assert.Equal(new DateOnly(2024, 6, 19), forecast[4].Date);
+        Assert.All(forecast, f => Assert.Equal("Default City", f.City));
+    }
+
+    [Fact]
+    public async Task GetWeatherForecastForDate_WithInvalidDate_ReturnsBadRequest()
+    {
+        // Act
+        var response = await _client.GetAsync("/weatherforecast/date/invalid-date");
+
+        // Assert
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+    }
+
+    [Fact]
+    public async Task GetWeatherForecastForCityAndDate_ReturnsCorrectCityAndDate()
+    {
+        // Act
+        var forecast = await _client.GetFromJsonAsync<WeatherForecast[]>("/weatherforecast/Tokyo/date/2024-12-25");
+
+        // Assert
+        Assert.NotNull(forecast);
+        Assert.Equal(5, forecast.Length);
+        Assert.Equal(new DateOnly(2024, 12, 25), forecast[0].Date);
+        Assert.All(forecast, f => Assert.Equal("Tokyo", f.City));
+    }
+
+    [Fact]
+    public async Task GetWeatherForecastForCityAndDate_WithInvalidDate_ReturnsBadRequest()
+    {
+        // Act
+        var response = await _client.GetAsync("/weatherforecast/Berlin/date/2024-13-45");
+
+        // Assert
+        Assert.Equal(System.Net.HttpStatusCode.BadRequest, response.StatusCode);
+    }
 }

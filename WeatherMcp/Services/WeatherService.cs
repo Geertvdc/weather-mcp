@@ -16,9 +16,20 @@ public class WeatherService : IWeatherService
 
     public WeatherForecast[] GetWeatherForecast(string city)
     {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
+        var startDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
+        return GetWeatherForecast(city, startDate);
+    }
+
+    public WeatherForecast[] GetWeatherForecast(DateOnly startDate)
+    {
+        return GetWeatherForecast("Default City", startDate);
+    }
+
+    public WeatherForecast[] GetWeatherForecast(string city, DateOnly startDate)
+    {
+        var forecast = Enumerable.Range(0, 5).Select(index =>
             new WeatherForecast(
-                DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                startDate.AddDays(index),
                 Random.Shared.Next(-20, 55),
                 Summaries[Random.Shared.Next(Summaries.Length)],
                 city
